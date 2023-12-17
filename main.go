@@ -9,10 +9,13 @@ func main() {
 	const conferenceTickets int = 50
 
 	// constant variable of the name of the conference.
-	const conferenceName = "Go Conference"
+	conferenceName := "Go Conference"
 
 	// variable to hold the value of the remaining tickets.
 	var remainingTickets uint = 50
+
+	// Introduction of array
+	bookings := []string{}
 
 	// Printing the variables and a welcome message.
 	fmt.Printf("Welcome to %v booking application.\nWe have total of %v tickets and %v are still available.\nGet your tickets here to attend\n", conferenceName, conferenceTickets, remainingTickets)
@@ -47,6 +50,12 @@ func main() {
 	// logic for calculating remaining tickets
 	remainingTickets = remainingTickets - userTickets
 
+	// logic for booking the tickets.
+	bookings = append(bookings, firstName+" "+lastName)
+
 	fmt.Printf("Thank You %v %v for booking %v tickets. You will recieve a confirmation email at %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+
+	// printing out all the bookings done.
+	fmt.Printf("This are all our bookings: %v\n", bookings)
 }

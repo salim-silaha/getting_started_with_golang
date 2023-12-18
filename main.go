@@ -52,28 +52,46 @@ func main() {
 		// &userTickets is a pointer to the memory location of the variable.
 		fmt.Scanln(&userTickets)
 
-		// logic for calculating remaining tickets
-		remainingTickets = remainingTickets - userTickets
+		// using if statement to validate user input.
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
 
-		// logic for booking the tickets.
-		bookings = append(bookings, firstName+" "+lastName)
+		if isValidName && isValidEmail && isValidTicketNumber {
+			// logic for calculating remaining tickets
+			remainingTickets = remainingTickets - userTickets
 
-		fmt.Printf("Thank You %v %v for booking %v tickets. You will recieve a confirmation email at %v\n", firstName, lastName, userTickets, email)
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+			// logic for booking the tickets.
+			bookings = append(bookings, firstName+" "+lastName)
 
-		// introduction of an array to hold the values of the firstnames.
-		firstNames := []string{}
+			fmt.Printf("Thank You %v %v for booking %v tickets. You will recieve a confirmation email at %v\n", firstName, lastName, userTickets, email)
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-		// for loop to loop through the bookings array.
-		// more or less like a for each loop.
-		// it get the value of the first name from the bookings array and appends/adds the firstnames to
-		// a different array that holds only firstnames.
-		// _ is a technique to tell the for loop to ignore the first argurment.
-		for _, booking := range bookings {
-			var names = strings.Fields(booking)
-			firstNames = append(firstNames, names[0])
+			// introduction of an array to hold the values of the firstnames.
+			firstNames := []string{}
+
+			// for loop to loop through the bookings array.
+			// more or less like a for each loop.
+			// it get the value of the first name from the bookings array and appends/adds the firstnames to
+			// a different array that holds only firstnames.
+			// _ is a technique to tell the for loop to ignore the first argurment.
+			for _, booking := range bookings {
+				var names = strings.Fields(booking)
+				firstNames = append(firstNames, names[0])
+			}
+			// printing out all the bookings done.
+			fmt.Printf("This are the first names of all our bookings: %v\n", firstNames)
+		} else {
+			if !isValidName {
+				fmt.Println("Name provided is invalid, please check the password and try again.")
+			}
+			if !isValidEmail {
+				fmt.Println("The email provided is not valid.")
+			}
+			if !isValidTicketNumber {
+				fmt.Println("Number of tickets is invalid")
+			}
+			continue
 		}
-		// printing out all the bookings done.
-		fmt.Printf("This are the first names of all our bookings: %v\n", firstNames)
 	}
 }

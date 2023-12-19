@@ -8,7 +8,7 @@ package main
 import (
 	"fmt"
 	"getting_started_with_golang/header"
-	"strings"
+	"strconv"
 )
 
 // Introduction of variables.
@@ -22,7 +22,15 @@ var conferenceName = "Go Conference"
 var remainingTickets uint = 50
 
 // Introduction of array
-var bookings = []string{}
+// var bookings = []string{}
+
+// we now create a list of maps instead of a single slice
+// the syntax "[]" creates a list,
+// the syntax "map[string]string creates a map"
+// together "[]map[string]string" creates a list of maps.
+// using the make keyword to make the list of maps and the size of the list is initialized to 0, like this
+// "make([]maps[string]string, 0)"
+var bookings = make([]map[string]string, 0)
 
 func main() {
 
@@ -115,11 +123,32 @@ func bookTickets(firstName string, lastName string, userTickets uint, email stri
 	// logic for calculating remaining tickets
 	remainingTickets = remainingTickets - userTickets
 
+	// create a map to hold key value pair data of the user instead of the slice which holds the string values only
+
+	// slices are written this way
+	// var mySlice []string
+	// and maps are written this way
+	//  var myMap map[string]string
+
+	// defining an empty map of key string and value string.
+	userDataMap := make(map[string]string)
+
+	// initialization of the objects, using 'map["key"] = value.'
+	userDataMap["firstName"] = firstName
+	userDataMap["lastName"] = lastName
+	userDataMap["email"] = email
+	// now we have a uint datatype value for the userTickets and we said that map[string]string
+	userDataMap["userTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+
 	// logic for booking the tickets.
-	bookings = append(bookings, firstName+" "+lastName)
+	// appending the map to a list of map called bookings.
+	bookings = append(bookings, userDataMap)
 
 	fmt.Printf("Thank You %v %v for booking %v tickets. You will recieve a confirmation email at %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+
+	// printing out the list of bookings after populating it.
+	fmt.Printf("Here is a List of all the bookings: %v\n", bookings)
 }
 
 func printFirstNames() []string {
@@ -132,8 +161,8 @@ func printFirstNames() []string {
 	// a different array that holds only firstnames.
 	// _ is a technique to tell the for loop to ignore the first argurment.
 	for _, booking := range bookings {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		// appending firstNames from the booking array to the firstNames slice.
+		firstNames = append(firstNames, booking["firstName"])
 	}
 	return firstNames
 }

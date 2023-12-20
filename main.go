@@ -8,7 +8,6 @@ package main
 import (
 	"fmt"
 	"getting_started_with_golang/header"
-	"strconv"
 )
 
 // Introduction of variables.
@@ -30,7 +29,21 @@ var remainingTickets uint = 50
 // together "[]map[string]string" creates a list of maps.
 // using the make keyword to make the list of maps and the size of the list is initialized to 0, like this
 // "make([]maps[string]string, 0)"
-var bookings = make([]map[string]string, 0)
+var bookings = make([]UserData, 0)
+
+// we are modifying the booking list of maps above to refer to a list of struct. like this "make([]UserData, 0)"
+// this makes the above code clean and readable.
+// so now we have a list of structs not maps
+// using struct to create a defined structure by listing all the properties of the data and their types independently.
+
+// benefits of structs is that structs take multiple data types so there is no need for conversion from one data property to the other using string conversion like earlier.
+
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint
+}
 
 func main() {
 
@@ -131,14 +144,13 @@ func bookTickets(firstName string, lastName string, userTickets uint, email stri
 	//  var myMap map[string]string
 
 	// defining an empty map of key string and value string.
-	userDataMap := make(map[string]string)
-
-	// initialization of the objects, using 'map["key"] = value.'
-	userDataMap["firstName"] = firstName
-	userDataMap["lastName"] = lastName
-	userDataMap["email"] = email
-	// now we have a uint datatype value for the userTickets and we said that map[string]string
-	userDataMap["userTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	userDataMap := UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
+		numberOfTickets: userTickets,
+	}
+	// refactoring the code to use struct and initializing the properties of the struct.
 
 	// logic for booking the tickets.
 	// appending the map to a list of map called bookings.
@@ -162,7 +174,8 @@ func printFirstNames() []string {
 	// _ is a technique to tell the for loop to ignore the first argurment.
 	for _, booking := range bookings {
 		// appending firstNames from the booking array to the firstNames slice.
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
+		// refactor to refer to the property of a struct using dot notation.
 	}
 	return firstNames
 }
